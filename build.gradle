@@ -1,0 +1,40 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'flyway'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.mybatis:mybatis:3.2.7"
+    compile "org.mybatis:mybatis-guice:3.6"
+    compile "com.google.inject.extensions:guice-multibindings:3.0"
+    compile "org.glassfish.hk2:guice-bridge:2.3.0"
+    compile "mysql:mysql-connector-java:5.1.31"
+
+    testCompile "junit:junit:4.11"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0'
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.flywaydb:flyway-gradle-plugin:3.0"
+        classpath 'mysql:mysql-connector-java:5.1.31'
+    }
+}
+
+flyway {
+    driver = 'com.mysql.jdbc.Driver'
+    url = 'jdbc:mysql://localhost:3306/ks_rent'
+    user = 'ks'
+    password = 'ks'
+    locations = ['filesystem:src/main/resources/db/migration/mysql']
+    sqlMigrationPrefix = 'MySQL-'
+}
