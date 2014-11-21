@@ -3,6 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.kiwi.mybatis.guice.mapper.UserMapper">
+    <sql id="userColumns">id as user_id, name as user_name</sql>
+
     <resultMap id="userDetail" type="org.kiwi.mybatis.guice.domain.User">
         <id column="user_id" property="id"/>
         <result column="user_name" property="name"/>
@@ -10,13 +12,13 @@
 
     <select id="find" resultMap="userDetail">
         select
-        id as user_id, name as user_name
+        <include refid="userColumns"></include>
         from users where id = #{id};
     </select>
 
     <select id="all" resultMap="userDetail">
         select
-        id as user_id, name as user_name
+        <include refid="userColumns"></include>
         from users
     </select>
 
